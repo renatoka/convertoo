@@ -17,8 +17,8 @@ alphabet = string.ascii_letters + string.digits
 app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
-firebase_admin.initialize_app(cred, {"storageBucket": os.getenv("STORAGE_BUCKET")})
-bucket = storage.bucket(os.getenv("STORAGE_BUCKET"))
+firebase_admin.initialize_app(cred, {"storageBucket": 'convertme-a0b9f.appspot.com'})
+bucket = storage.bucket('convertme-a0b9f.appspot.com')
 
 react_folder = "frontend"
 directory = os.getcwd() + f"/{react_folder}/build/static"
