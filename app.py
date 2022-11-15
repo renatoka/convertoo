@@ -1,7 +1,6 @@
 import os
 import secrets
 import string
-import pythoncom
 import firebase_admin
 from docx2pdf import convert
 from firebase_admin import credentials, storage
@@ -44,7 +43,6 @@ def css(folder, file):
 
 @app.route("/", methods=["POST"])
 def upload():
-    pythoncom.CoInitialize()
     file = request.files["file"]
     try:
         if file.filename.endswith(".docx"):
