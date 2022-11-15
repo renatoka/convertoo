@@ -2,6 +2,7 @@ import os
 import secrets
 import string
 import firebase_admin
+# import pythoncom
 from docx2pdf import convert
 from firebase_admin import credentials, storage
 from flask import Flask, Response, send_from_directory, redirect, request
@@ -9,7 +10,6 @@ from uuid import uuid4
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
-
 load_dotenv()
 
 alphabet = string.ascii_letters + string.digits
@@ -23,26 +23,9 @@ bucket = storage.bucket('convertme-a0b9f.appspot.com')
 react_folder = "frontend"
 directory = os.getcwd() + f"/{react_folder}/build/static"
 
-
-@app.route("/")
-def index():
-    """User will call with with thier id to store the symbol as registered"""
-    path = os.getcwd() + f"/{react_folder}/build"
-    print(path)
-    return send_from_directory(directory=path, path="index.html")
-
-
-#
-@app.route("/static/<folder>/<file>")
-def css(folder, file):
-    """User will call with with thier id to store the symbol as registered"""
-
-    path = folder + "/" + file
-    return send_from_directory(directory=directory, path=path)
-
-
 @app.route("/", methods=["POST"])
 def upload():
+    # pythoncom.CoInitialize()
     file = request.files["file"]
     try:
         if file.filename.endswith(".docx"):
@@ -77,6 +60,17 @@ def upload():
 
     except Exception as e:
         return str(e)
+    
+@app.route("/")
+def index():
+    path = os.getcwd() + f"/{react_folder}/build"
+    return send_from_directory(directory=path, path="index.html")
+
+
+@app.route("/static/<folder>/<file>")
+def css(folder, file):
+    path = folder + "/" + file
+    return send_from_directory(directory=directory, path=path)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
