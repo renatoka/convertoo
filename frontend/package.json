@@ -1,5 +1,7 @@
 {
-  "name": "streaming-tutorial",
+  "name": "convertoo",
+  "author" : "renatoka",
+  "keywords": ["convert docx to pdf", "docx to pdf", "word to pdf"],
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -34,5 +36,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4"
   }
 }
