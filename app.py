@@ -59,7 +59,7 @@ def upload():
 
             return redirect(blob.public_url)
         else:
-            return redirect("Not a docx file")
+            return Response("File type not supported", status=400)
 
     except RequestEntityTooLarge as e:
         return "File too large. Max file size is 10MB"
