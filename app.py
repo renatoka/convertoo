@@ -2,8 +2,7 @@ import os
 import secrets
 import string
 import firebase_admin
-import pythoncom
-from docx2pdf import convert
+import convertapi
 from firebase_admin import credentials, storage
 from flask import Flask, Response, render_template, redirect, request
 from uuid import uuid4
@@ -13,6 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 alphabet = string.ascii_letters + string.digits
+convertapi.api_secret = 'T1x02v0vDiKfbEpk'
 
 app = Flask(
     __name__,
@@ -25,28 +25,23 @@ cred = credentials.Certificate("secret.json")
 firebase_admin.initialize_app(cred, {"storageBucket": "convertme-a0b9f.appspot.com"})
 bucket = storage.bucket("convertme-a0b9f.appspot.com")
 
-# react_folder = "frontend"
-# directory = os.getcwd() + f"/{react_folder}/build/static"
-
-
-# @app.route("/", methods=["GET"])
-# def index():
-#     return render_template("index.html")
-
-
 @app.route("/upload", methods=["POST"])
 def upload():
-    pythoncom.CoInitialize()
     file = request.files["file"]
     try:
         if file.filename.endswith(".docx"):
             random_string = "".join(secrets.choice(alphabet) for i in range(10))
 
             file.save(f"./uploads/{secure_filename(file.filename)}")
-            convert(
-                f"./uploads/{secure_filename(file.filename)}",
-                f"./uploads/{secure_filename(file.filename)}.pdf",
-            )
+
+            convertapi.convert(
+                "pdf",
+                {
+                    "File": f"./uploads/{secure_filename(file.filename)}",
+                },
+                from_format="docx",
+            ).save_files(f"./uploads/{random_string}.pdf")
+            
 
             blob = bucket.blob(
                 f"{secure_filename(random_string)}/{secure_filename(file.filename)}.pdf"
@@ -75,17 +70,6 @@ def upload():
 @app.route('/')
 def index():
     return render_template('index.html')
-
-# @app.route("/")
-# def index():
-#     path = os.getcwd() + f"/{react_folder}/build"
-#     return send_from_directory(directory=path, path="index.html")
-
-
-# @app.route("/static/<folder>/<file>")
-# def css(folder, file):
-#     path = folder + "/" + file
-#     return send_from_directory(directory=directory, path=path)
 
 if __name__ == "__main__":
     app.run()
