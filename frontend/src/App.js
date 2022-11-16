@@ -1,5 +1,6 @@
 import logo from './images/logo.png'
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
 
@@ -85,7 +86,7 @@ function App() {
                   {/* <img className="mx-auto" src={HeroImage} width="768" height="432" alt="Hero" /> */}
                   <div className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-md">
                     <div className="space-y-1 text-center">
-                      <form className="flex flex-col text-sm text-gray-600 w-full" action="/" method="POST" encType="multipart/form-data" id='forma' onChange={handlePostMethod}>
+                      <form className="flex flex-col text-sm text-gray-600 w-full" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={handlePostMethod}>
                         <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                           <span>Upload a file</span>
                           <input id="file-upload" name="file" type="file" className="sr-only" />

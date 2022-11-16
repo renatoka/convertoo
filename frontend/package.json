@@ -1,6 +1,7 @@
 {
   "name": "convertoo",
   "author" : "renatoka",
+  "proxy": "http://localhost:5000",
   "keywords": ["convert docx to pdf", "docx to pdf", "word to pdf"],
   "version": "0.1.0",
   "private": true,
