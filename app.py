@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 alphabet = string.ascii_letters + string.digits
-convertapi.api_secret = 'T1x02v0vDiKfbEpk'
+convertapi.api_secret = 'H2LgxucHyJVVY2DG'
 
 app = Flask(
     __name__,
@@ -43,21 +43,19 @@ def upload():
             ).save_files(f"./uploads/{random_string}.pdf")
             
 
-            blob = bucket.blob(
-                f"{secure_filename(random_string)}/{secure_filename(file.filename)}.pdf"
-            )
+            blob = bucket.blob(f"{random_string}/{random_string}.pdf")
 
             token = uuid4()
-            metadata = {"firebaseStorageDownloadTokens": token}
-            blob.metadata = metadata
+            blob.metadata = {"firebaseStorageDownloadTokens": token}
 
-            blob.upload_from_filename(f"./uploads/{secure_filename(file.filename)}.pdf")
+            blob.upload_from_filename(f"./uploads/{random_string}.pdf")
             blob.make_public()
 
             os.remove(f"./uploads/{secure_filename(file.filename)}")
-            os.remove(f"./uploads/{secure_filename(file.filename)}.pdf")
+            os.remove(f"./uploads/{random_string}.pdf")
 
             return redirect(blob.public_url)
+
         else:
             return Response("File type not supported", status=400)
 
@@ -72,4 +70,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
