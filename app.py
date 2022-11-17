@@ -10,8 +10,6 @@ from flask import (
     render_template,
     redirect,
     request,
-    send_from_directory,
-    url_for,
 )
 from uuid import uuid4
 from werkzeug.utils import secure_filename
@@ -21,7 +19,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 alphabet = string.ascii_letters + string.digits
-convertapi.api_secret = "H2LgxucHyJVVY2DG"
+convertapi.api_secret = os.getenv("CONVERT_API_SECRET")
 
 app = Flask(__name__)
 
@@ -30,8 +28,8 @@ app.static_folder = "frontend/build/static/"
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
-firebase_admin.initialize_app(cred, {"storageBucket": "convertme-a0b9f.appspot.com"})
-bucket = storage.bucket("convertme-a0b9f.appspot.com")
+firebase_admin.initialize_app(cred, {"storageBucket": os.getenv("STORAGE_BUCKET")})
+bucket = storage.bucket(os.getenv("STORAGE_BUCKET"))
 
 
 @app.route('/')
@@ -78,15 +76,6 @@ def upload():
 
     except Exception as e:
         return str(e)
-
-# @app.route("/static/<folder>/<file>")
-# def css(folder, file):
-#     path = folder + "/" + file
-#     return send_from_directory(directory=directory, path=path)
-
-# @app.route("/static/<path:path>")
-# def static_file(path):
-#     return send_from_directory(directory=directory, path=path)
 
 if __name__ == "__main__":
     app.run()
