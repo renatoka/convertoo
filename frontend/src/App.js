@@ -1,6 +1,5 @@
 import logo from './images/logo.png'
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 function App() {
 
@@ -39,12 +38,9 @@ function App() {
             <nav className="flex flex-grow">
               <ul className="flex flex-grow justify-end flex-wrap items-center">
                 <li>
-                  <p className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 sm:flex items-center transition duration-150 ease-in-out p-3 rounded-lg hidden">GitHub</p>
-                </li>
-                <li>
-                  <p className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3 p-3 rounded-lg">
-                    <span>Buy me a Coffee</span>
-                  </p>
+                  <a href='https://www.buymeacoffee.com/renatok' target="_blank" rel='noreferrer' className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3 p-3 rounded-lg">
+                    <span>Buy me a Beer 🍺</span>
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -150,7 +146,7 @@ function App() {
       <section className="bg-gray-100">
         <div className="container mx-auto px-4">
           <p className="text-center text-gray-600 text-sm">© 2022 Convertoo. All rights reserved.</p>
-          <p className="text-center text-gray-600 text-sm mb-8">Made with ❤️ by <a href="https://github.com/renatoka" className="text-blue-500 hover:underline">@renatoka</a></p>
+          <p className="text-center text-gray-600 text-sm mb-8">Made with ❤️ by <a href="https://github.com/renatoka" className="text-blue-500 hover:underline" target="_blank" rel='noreferrer'>@renatoka</a></p>
         </div>
       </section>
     </>
