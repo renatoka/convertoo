@@ -24,11 +24,9 @@ convertapi.api_secret = "H2LgxucHyJVVY2DG"
 
 react_folder = "frontend"
 directory = os.getcwd() + f"/{react_folder}/build/static"
-build_folder = os.getcwd() + f"/{react_folder}/build"
 
 # app = Flask(__name__, template_folder="template", static_folder=directory)
-
-app = Flask(__name__, static_url_path='/frontend/build', static_folder=build_folder, template_folder=build_folder)
+app = Flask(__name__, static_url_path='', static_folder='frontend/build/static', template_folder='frontend/build/templates')
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
@@ -80,10 +78,10 @@ def upload():
 def index():
     return render_template("index.html")
 
-@app.route("/static/<folder>/<file>")
-def css(folder, file):
-    path = folder + "/" + file
-    return send_from_directory(directory=directory, path=path)
+# @app.route("/static/<folder>/<file>")
+# def css(folder, file):
+#     path = folder + "/" + file
+#     return send_from_directory(directory=directory, path=path)
 
 @app.route("/static/<path:path>")
 def static_file(path):
