@@ -23,7 +23,11 @@ load_dotenv()
 alphabet = string.ascii_letters + string.digits
 convertapi.api_secret = "H2LgxucHyJVVY2DG"
 
-app = Flask(__name__, template_folder="frontend/build/templates", static_folder="frontend/build/static")
+react_folder = 'frontend'
+directory= os.getcwd()+ f'/{react_folder}/build/static'
+
+app = Flask(__name__)
+
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
@@ -31,9 +35,17 @@ firebase_admin.initialize_app(cred, {"storageBucket": "convertme-a0b9f.appspot.c
 bucket = storage.bucket("convertme-a0b9f.appspot.com")
 
 
-@app.route("/", methods=["GET"])
+@app.route('/')
 def index():
-    return render_template("index.html")
+    path= os.getcwd()+ f'/{react_folder}/build'
+    print(path)
+    return send_from_directory(directory=path,path='index.html')
+
+
+@app.route('/static/<folder>/<file>')
+def css(folder,file):
+    path = folder+'/'+file
+    return send_from_directory(directory=directory,path=path)
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -84,5 +96,4 @@ def upload():
 #     return send_from_directory(directory=directory, path=path)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run()
