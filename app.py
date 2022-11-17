@@ -16,7 +16,6 @@ from uuid import uuid4
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
-
 load_dotenv()
 
 alphabet = string.ascii_letters + string.digits
@@ -73,9 +72,13 @@ def upload():
         return str(e)
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def catch_all(path):
+    if path != "" and os.path.exists(f"{react_folder}/build/{path}"):
+        return send_from_directory(f"{react_folder}/build", path)
+    else:
+        return send_from_directory(f"{react_folder}/build", "index.html")
 
 # @app.route("/static/<folder>/<file>")
 # def css(folder, file):
