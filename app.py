@@ -23,11 +23,10 @@ load_dotenv()
 alphabet = string.ascii_letters + string.digits
 convertapi.api_secret = "H2LgxucHyJVVY2DG"
 
-react_folder = 'frontend'
-directory= os.getcwd()+ f'/{react_folder}/build/static'
-
 app = Flask(__name__)
 
+app.template_folder = "frontend/build/templates/"
+app.static_folder = "frontend/build/static/"
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
@@ -37,15 +36,9 @@ bucket = storage.bucket("convertme-a0b9f.appspot.com")
 
 @app.route('/')
 def index():
-    path= os.getcwd()+ f'/{react_folder}/build'
-    print(path)
-    return send_from_directory(directory=path,path='index.html')
+    ''' User will call with with thier id to store the symbol as registered'''
+    return render_template("index.html")
 
-
-@app.route('/static/<folder>/<file>')
-def css(folder,file):
-    path = folder+'/'+file
-    return send_from_directory(directory=directory,path=path)
 
 @app.route("/upload", methods=["POST"])
 def upload():
