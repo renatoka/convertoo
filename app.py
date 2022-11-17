@@ -23,9 +23,12 @@ alphabet = string.ascii_letters + string.digits
 convertapi.api_secret = "H2LgxucHyJVVY2DG"
 
 react_folder = "frontend"
-directory = os.getcwd() + f"/{react_folder}/build/static"
+# directory = os.getcwd() + f"/{react_folder}/build/static"
+build_folder = os.getcwd() + f"/{react_folder}/build"
 
-app = Flask(__name__, template_folder="template", static_folder=directory)
+# app = Flask(__name__, template_folder="template", static_folder=directory)
+
+app = Flask(__name__, static_url_path='', static_folder=build_folder, template_folder=build_folder)
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
