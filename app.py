@@ -71,14 +71,17 @@ def upload():
     except Exception as e:
         return str(e)
 
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def catch_all(path):
-    if path != "" and os.path.exists(f"{react_folder}/build/{path}"):
-        return send_from_directory(f"{react_folder}/build", path)
-    else:
-        return send_from_directory(f"{react_folder}/build", "index.html")
+@app.route("/static/js/main.c61c3b4e.js")
+def main_js():
+    return send_from_directory(f"{react_folder}/build/static/js", "main.c61c3b4e.js")
+
+@app.route("/static/css/main.b18825e8.css")
+def main_css():
+    return send_from_directory(f"{react_folder}/build/static/css", "main.b18825e8.css")
 
 # @app.route("/static/<folder>/<file>")
 # def css(folder, file):
