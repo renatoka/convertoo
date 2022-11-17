@@ -11,33 +11,29 @@ from flask import (
     redirect,
     request,
     send_from_directory,
+    url_for,
 )
 from uuid import uuid4
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 from dotenv import load_dotenv
+
 load_dotenv()
 
 alphabet = string.ascii_letters + string.digits
 convertapi.api_secret = "H2LgxucHyJVVY2DG"
 
-react_folder = "frontend"
-directory = os.getcwd() + f"/{react_folder}/build"
-
-app = Flask(__name__, static_folder=directory)
+app = Flask(__name__, template_folder="frontend/build/templates", static_folder="frontend/build/static")
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
 cred = credentials.Certificate("secret.json")
 firebase_admin.initialize_app(cred, {"storageBucket": "convertme-a0b9f.appspot.com"})
 bucket = storage.bucket("convertme-a0b9f.appspot.com")
 
-@app.route("/", defaults={"path": ""})
-@app.route("/<path:path>")
-def serve(path):
-    if path != "" and os.path.exists(app.static_folder + "/" + path):
-        return send_from_directory(app.static_folder, path)
-    else:
-        return send_from_directory(app.static_folder, "index.html")
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
 
 @app.route("/upload", methods=["POST"])
 def upload():
