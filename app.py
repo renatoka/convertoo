@@ -11,6 +11,7 @@ from flask import (
     redirect,
     request,
 )
+from flask_cors import CORS
 from uuid import uuid4
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -22,11 +23,13 @@ alphabet = string.ascii_letters + string.digits
 convertapi.api_secret = os.getenv("CONVERT_API_SECRET")
 
 app = Flask(__name__)
+CORS(app)
 
 app.template_folder = "frontend/build/templates/"
 app.static_folder = "frontend/build/static/"
 
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024  # 10MB
+app.config["CORS_HEADERS"] = "Content-Type"
 cred = credentials.Certificate("secret.json")
 firebase_admin.initialize_app(cred, {"storageBucket": os.getenv("STORAGE_BUCKET")})
 bucket = storage.bucket(os.getenv("STORAGE_BUCKET"))
