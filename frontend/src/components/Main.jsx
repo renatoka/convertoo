@@ -42,18 +42,17 @@ const Main = () => {
             <div>
               <div className="relative flex justify-center mb-8" data-aos="zoom-y-out" data-aos-delay="450">
                 <div className="flex flex-col justify-center w-full">
-                  <div className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-md">
+                  <form className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-md" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={handlePostMethod}>
                     <div className="space-y-1 text-center">
-                      <form className="flex flex-col text-sm text-gray-600 w-full" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={handlePostMethod}>
+                      <div className="flex flex-col text-sm text-gray-600 w-full">
                         <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                           <span>{t('upload')}</span>
                           <input id="file-upload" name="file" type="file" className="sr-only" />
-                          {/* <input type="submit" className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3 p-3 rounded-lg" value="Convert" /> */}
                         </label>
-                      </form>
+                      </div>
                       <p className="text-xs text-gray-500">{t('upload-subheading')}</p>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
