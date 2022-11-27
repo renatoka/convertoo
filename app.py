@@ -72,7 +72,6 @@ def upload():
             os.remove(f"./uploads/{random_string}.pdf")
 
             return redirect(blob.public_url)
-
         else:
             return Response("File type not supported", status=400)
 
