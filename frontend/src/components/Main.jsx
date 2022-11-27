@@ -1,19 +1,43 @@
 import { useTranslation } from "react-i18next"
+import { useState } from "react";
+import FormatError from "./chakra/FormatError"
+import SizeError from "./chakra/SizeError"
 
 const Main = () => {
 
   const { t } = useTranslation()
+  const [formatError, setFormatError] = useState(false)
+  const [sizeError, setSizeError] = useState(false)
 
-  const handlePostMethod = (e) => {
-    e.preventDefault();
-    document.getElementById('forma').submit();
+  const handlePostMethod = (event) => {
+    event.preventDefault()
+    const files = event.target.files
+    const formData = new FormData()
+    formData.append("file", files[0])
+
+    if (files[0].type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+      if (files[0].size <= 10000000) {
+        document.getElementById('forma').submit()
+      } else {
+        setSizeError(true)
+        setTimeout(() => {
+          setSizeError(false)
+        }, 3000)
+      }
+    } else {
+      setFormatError(true)
+      setTimeout(() => {
+        setFormatError(false)
+      }, 3000)
+    }
+    // document.getElementById('forma').submit();
   }
 
   return (
     <>
       <section className="relative overflow-hidden">
         {/* Illustration behind hero content */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none -z-10" aria-hidden="true">
           <svg width="1360" height="578" viewBox="0 0 1360 578" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="illustration-01">
@@ -55,6 +79,14 @@ const Main = () => {
                   </form>
                 </div>
               </div>
+            </div>
+            <div className="absolute right-5 bottom-5">
+              {
+                sizeError && <SizeError error={sizeError} />
+              }
+              {
+                formatError && <FormatError error={formatError} />
+              }
             </div>
           </div>
         </div>
