@@ -11,7 +11,7 @@ from flask import (
     redirect,
     request,
 )
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from uuid import uuid4
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
@@ -36,12 +36,14 @@ bucket = storage.bucket(os.getenv("STORAGE_BUCKET"))
 
 
 @app.route('/')
+@cross_origin()
 def index():
     ''' User will call with with thier id to store the symbol as registered'''
     return render_template("index.html")
 
 
 @app.route("/upload", methods=["POST"])
+@cross_origin()
 def upload():
     file = request.files["file"]
     try:
