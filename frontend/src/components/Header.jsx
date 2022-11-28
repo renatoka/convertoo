@@ -1,33 +1,26 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next"
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from '@chakra-ui/react'
 
 const Header = () => {
 
   const { t, i18n } = useTranslation()
   const [top, setTop] = useState(true);
+  const [language, setLanguage] = useState("🇺🇸 EN");
 
+  // Function to change language and set the language icon accordingly
   const changeLanguage = (lng) => {
-    switch (lng) {
-      case "en":
-        i18n.changeLanguage("en");
-        document.getElementById('lng-btn').innerHTML = '🇺🇸\t' + lng.toUpperCase();
-        break;
-      case "es":
-        i18n.changeLanguage("es");
-        document.getElementById('lng-btn').innerHTML = '🇪🇸\t' + lng.toUpperCase();
-        break;
-      case "fr":
-        i18n.changeLanguage("fr");
-        document.getElementById('lng-btn').innerHTML = '🇫🇷\t' + lng.toUpperCase();
-        break;
-      case "de":
-        i18n.changeLanguage("de");
-        document.getElementById('lng-btn').innerHTML = '🇩🇪\t' + lng.toUpperCase();
-        break;
-      default:
-        i18n.changeLanguage("en");
-        document.getElementById('lng-btn').innerHTML = '🇺🇸\t' + lng.toUpperCase();
-    }
+    i18n.changeLanguage(lng);
+    setLanguage(lng === "en" ? "🇺🇸 EN" : null || lng === "es" ? "🇪🇸 ES" : null || lng == "fr" ? "🇫🇷 FR" : null || lng == "de" ? "🇩🇪 DE" : null)
   }
 
   useEffect(() => {
@@ -60,7 +53,18 @@ const Header = () => {
               </li>
             </ul>
           </nav>
-          <div className="flex items-center md:order-2">
+          <Menu>
+            <MenuButton className="btn-sm ml-3 p-3 rounded-lg">
+              <span>{language}</span>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => changeLanguage("en")}>🇺🇸 English</MenuItem>
+              <MenuItem onClick={() => changeLanguage("es")}>🇪🇸 Español</MenuItem>
+              <MenuItem onClick={() => changeLanguage("fr")}>🇫🇷 Français</MenuItem>
+              <MenuItem onClick={() => changeLanguage("de")}>🇩🇪 Deutsch</MenuItem>
+            </MenuList>
+          </Menu>
+          {/* <div className="flex items-center md:order-2">
             <button type="button" data-dropdown-toggle="language-dropdown-menu" className="inline-flex items-center justify-center p-2 text-sm text-gray-500 rounded cursor-pointer ml-2" id="lng-btn">
               {'🇺🇸'} EN
             </button>
@@ -88,7 +92,7 @@ const Header = () => {
                 </li>
               </ul>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </header>
