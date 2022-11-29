@@ -1,4 +1,5 @@
-import { useTranslation } from "react-i18next";
+import * as React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Bottom = () => {
 
@@ -6,7 +7,7 @@ const Bottom = () => {
 
   return (
     <>
-      <section className="bg-gray-100">
+      {/* <section className="bg-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="pt-12 pb-16 md:pt-16 md:pb-20">
             <div className="text-center">
@@ -48,14 +49,7 @@ const Bottom = () => {
             </div>
           </div>
         </div>
-      </section>
-      {/* Footer */}
-      <section className="bg-gray-100">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-gray-600 text-sm">{t('copyright')}</p>
-          <p className="text-center text-gray-600 text-sm mb-5">{t('footer')}<a href="https://github.com/renatoka" className="text-blue-500 hover:underline" target="_blank" rel='noreferrer'>@renatoka</a></p>
-        </div>
-      </section>
+      </section> */}
     </>
 
   );
