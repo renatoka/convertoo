@@ -17,7 +17,6 @@ const Header = () => {
   const [top, setTop] = useState(true);
   const [language, setLanguage] = useState("🇺🇸 EN");
 
-  // Function to change language and set the language icon accordingly
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setLanguage(lng === "en" ? "🇺🇸 EN" : null || lng === "es" ? "🇪🇸 ES" : null || lng == "fr" ? "🇫🇷 FR" : null || lng == "de" ? "🇩🇪 DE" : null)
