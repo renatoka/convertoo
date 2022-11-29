@@ -98,7 +98,7 @@ const Main = () => {
                     <div className="flex flex-col text-sm text-gray-600 w-full">
                       <label htmlFor="file-upload" className="cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                         <span>{t('upload')}</span>
-                        <input id="file-upload" name="file" type="file" className="sr-only" />
+                        <input id="file-upload" name="file" type="file" className="sr-only" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf" />
                       </label>
                     </div>
                     <p className="text-xs text-gray-500">{t('upload-subheading')}</p>
@@ -132,17 +132,6 @@ const Main = () => {
                 }
               </AnimatePresence>
             </motion.div>
-            {/* <div>
-              {
-                formatError ? <FormatError error={formatError} /> : null
-              }
-              {
-                sizeError ? <SizeError error={sizeError} /> : null
-              }
-              {
-                success ? <SuccessUpload success={success} /> : null
-              }
-            </div> */}
           </div>
         </div>
       </section>
