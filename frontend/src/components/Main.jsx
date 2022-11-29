@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FormatError from "./chakra/FormatError"
 import SizeError from "./chakra/SizeError"
 import SuccessUpload from "./chakra/SuccessUpload"
@@ -10,6 +11,27 @@ const Main = () => {
   const [formatError, setFormatError] = useState(false)
   const [sizeError, setSizeError] = useState(false)
   const [success, setSuccess] = useState(false)
+
+  const errorAnimation = {
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.5
+      },
+      y: 100
+    },
+    enter: {
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      },
+      y: 0
+    },
+    initial: {
+      opacity: 0,
+      y: 0
+    }
+  }
 
   const handlePostMethod = (event) => {
     event.preventDefault()
@@ -22,6 +44,7 @@ const Main = () => {
         setSuccess(true)
         setInterval(() => {
           document.getElementById('forma').submit();
+          setSuccess(false)
         }, 2000)
       } else {
         setSizeError(true)
@@ -84,7 +107,32 @@ const Main = () => {
               </div>
             </div>
             {/* Error displaying under upload form */}
-            <div>
+            <motion.div>
+              <AnimatePresence>
+                {
+                  formatError ?
+                    <motion.div variants={errorAnimation} initial="initial" animate="enter" exit="exit">
+                      <FormatError error={formatError} />
+                    </motion.div>
+                    : null
+                }
+                {
+                  sizeError ?
+                    <motion.div variants={errorAnimation} initial="initial" animate="enter" exit="exit">
+                      <SizeError error={sizeError} />
+                    </motion.div>
+                    : null
+                }
+                {
+                  success ?
+                    <motion.div variants={errorAnimation} initial="initial" animate="enter" exit="exit">
+                      <SuccessUpload success={success} />
+                    </motion.div>
+                    : null
+                }
+              </AnimatePresence>
+            </motion.div>
+            {/* <div>
               {
                 formatError ? <FormatError error={formatError} /> : null
               }
@@ -94,7 +142,7 @@ const Main = () => {
               {
                 success ? <SuccessUpload success={success} /> : null
               }
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
