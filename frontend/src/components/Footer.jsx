@@ -46,27 +46,27 @@ const Footer = () => {
             <Stack direction="row" spacing="8">
               <Stack spacing="3" minW="36" flex="1">
                 <Text fontSize="md" fontWeight={600} color="subtle">
-                  Product
+                  {t('product')}
                 </Text>
                 <Stack spacing="3" shouldWrapChildren>
-                  <Button variant="link" fontWeight={400}>How it works</Button>
-                  <Button variant="link" fontWeight={400}>Pricing</Button>
-                  <Button variant="link" fontWeight={400}>Use Cases</Button>
+                  <Button variant="link" fontWeight={400}>{t('how-it-works')}</Button>
+                  <Button variant="link" fontWeight={400}>{t('pricing')}</Button>
+                  <Button variant="link" fontWeight={400}>{t('use-cases')}</Button>
                 </Stack>
               </Stack>
               <Stack spacing="3" minW="36" flex="1" textAlign={{ base: "right", md: "left" }}>
                 <Text fontSize="md" fontWeight={600} color="subtle">
-                  Legal
+                  {t('legal')}
                 </Text>
                 <Stack spacing="3" shouldWrapChildren>
-                  <Button variant="link" fontWeight={400}>Privacy</Button>
-                  <Button variant="link" fontWeight={400}>Terms</Button>
-                  <Button variant="link" fontWeight={400}>License</Button>
+                  <Button variant="link" fontWeight={400}>{t('privacy')}</Button>
+                  <Button variant="link" fontWeight={400}>{t('terms')}</Button>
+                  <Button variant="link" fontWeight={400}>{t('license')}</Button>
                 </Stack>
               </Stack>
             </Stack>
             <Stack spacing="4">
-              <Text fontSize="md" color="subtle" fontWeight={600}>Stay up to date</Text>
+              <Text fontSize="md" color="subtle" fontWeight={600}>{t('newsletter')}</Text>
               <Stack spacing="4" direction={{ base: "column", sm: "row" }} maxW={{ lg: "360px", }}>
                 <Input placeholder="Enter your email" type="email" required />
                 <Button type="submit" flexShrink={0} fontWeight={500} colorScheme='blue'>
@@ -79,11 +79,11 @@ const Footer = () => {
         <Divider />
         <Stack pt="8" pb="12" justify="space-between" direction={{ base: "column-reverse", md: "row", }} align="center">
           <Text fontSize="sm" color="subtle">
-            &copy; {new Date().getFullYear()} Convertoo - All Rights Reserved.
+            &copy; {new Date().getFullYear()} {t('copyright')}
           </Text>
           <ButtonGroup variant="ghost">
-            <IconButton as="a" href="#" aria-label="LinkedIn" icon={<FaLinkedin fontSize="1.25rem" />} />
-            <IconButton as="a" href="#" aria-label="GitHub" icon={<FaGithub fontSize="1.25rem" />} />
+            <IconButton as="a" href="https://www.linkedin.com/in/renato-kauric" aria-label="LinkedIn" target={'_blank'} icon={<FaLinkedin fontSize="1.25rem" />} />
+            <IconButton as="a" href="https://github.com/renatoka/convertoo" aria-label="GitHub" target={'_blank'} icon={<FaGithub fontSize="1.25rem" />} />
           </ButtonGroup>
         </Stack>
       </div>
