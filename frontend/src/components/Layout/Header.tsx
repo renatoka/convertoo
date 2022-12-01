@@ -6,16 +6,23 @@ import {
   MenuList,
   MenuItem
 } from '@chakra-ui/react'
+import React from "react";
 
 const Header = () => {
 
   const { t, i18n } = useTranslation()
   const [top, setTop] = useState(true);
   const [language, setLanguage] = useState("🇺🇸 EN");
+  const languages = {
+    "en": "🇺🇸 EN",
+    "es": "🇪🇸 ES",
+    "fr": "🇫🇷 FR",
+    "de": "🇩🇪 DE",
+  }
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    setLanguage(lng === "en" ? "🇺🇸 EN" : null || lng === "es" ? "🇪🇸 ES" : null || lng == "fr" ? "🇫🇷 FR" : null || lng == "de" ? "🇩🇪 DE" : null)
+    setLanguage(languages[lng])
   }
 
   useEffect(() => {
