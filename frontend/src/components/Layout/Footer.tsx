@@ -16,29 +16,6 @@ const Footer = () => {
   const { t } = useTranslation();
 
   return (
-    // <footer className="bg-gray-100">
-    //   <div className="max-w-6xl mx-auto px-4 sm:px-6">
-    //     <div className="flex flex-wrap items-center md:justify-between justify-between py-6 md:py-12">
-    //       <div className="w-full md:w-4/12 px-4 text-center">
-    //         <div className="text-base text-gray-600">
-    //           © {new Date().getFullYear()} {t('footer')}
-    //           <span className="text-blue-600">
-    //             <a href="https://www.linkedin.com/in/renato-kauric" target={'__blank'}>Renato</a>
-    //           </span>
-    //         </div>
-    //       </div>
-    //       <div className="w-full md:w-8/12 px-4">
-    //         <ul className="flex flex-wrap list-none md:justify-end justify-center gap-3">
-    //           <li>
-    //             <a href="https://github.com/renatoka" target={'__blank'}>
-    //               <FaGithub className="text-gray-600 hover:text-gray-900 text-lg leading-lg" />
-    //             </a>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </footer>
     <div className="bg-gray-100">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <Stack spacing="8" direction={{ base: "column", md: "row", }} py={{ base: "12", md: "16", }}>
