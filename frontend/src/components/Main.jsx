@@ -1,74 +1,65 @@
-import { useTranslation } from "react-i18next"
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-// import FormatError from "./chakra/FormatError"
-// import SizeError from "./chakra/SizeError"
-// import SuccessUpload from "./chakra/SuccessUpload"
-import { PDFModal } from "./chakra/PDFModal";
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { UploadPopup } from "./chakra/UploadPopup";
-import React from "react";
+import { useDropzone } from 'react-dropzone'
+
+const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+const errorAnimation = {
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.5
+    },
+    y: 100
+  },
+  enter: {
+    opacity: 1,
+    transition: {
+      duration: 0.5
+    },
+    y: 0
+  },
+  initial: {
+    opacity: 0,
+    y: 0
+  }
+}
 
 const Main = () => {
 
   const { t } = useTranslation()
-  // const [formatError, setFormatError] = useState(false)
-  // const [sizeError, setSizeError] = useState(false)
-  // const [success, setSuccess] = useState('false')
+  const [error, setError] = useState('none')
 
-  const [error, setError] = useState('')
-  const [isPDF, setIsPDF] = useState(false)
-
-  const errorAnimation = {
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.5
-      },
-      y: 100
-    },
-    enter: {
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      },
-      y: 0
-    },
-    initial: {
-      opacity: 0,
-      y: 0
-    }
-  }
-
-  const handlePostMethod = (event) => {
-    event.preventDefault()
-    const files = event.target.files
+  const uploadFile = (file) => {
     const formData = new FormData()
-    formData.append("file", files[0])
+    formData.append("file", file)
 
-    if (files[0].type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") { // .docx
-      if (files[0].size <= 10000000) { // 10MB
-        setError('success')
-        setInterval(() => {
-          document.getElementById('forma').submit();
-          setError('none')
-        }, 2000)
+    if (allowedTypes.includes(file.type) && file.size <= 10000000) {
+      if (file.type === 'application/pdf') {
+        setIsPDF(true)
       } else {
-        setError('size')
+        setError('success')
         setTimeout(() => {
           setError('none')
-        }, 3000)
+          document.getElementById('forma').submit();
+        }, 2000)
       }
     } else {
-      setError('type')
-      setTimeout(() => {
-        setError('none')
-      }, 3000)
-    }
-
-    if (files[0].type === "application/pdf") {
-      setIsPDF(true)
+      if (file.size > 10000000) {
+        setError('size')
+      } else {
+        setError('type')
+      }
     }
   }
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: '.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf',
+    onDrop: acceptedFiles => {
+      uploadFile(acceptedFiles[0])
+    }
+  })
 
   return (
     <>
@@ -100,9 +91,10 @@ const Main = () => {
                 </p>
               </div>
             </div>
-            <div className="flex justify-center" data-aos="zoom-y-out" data-aos-delay="450">
-              <div className="flex flex-col justify-center w-full">
-                <form className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-t-md" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={handlePostMethod}>
+            <div>
+              <div className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-b-md" {...getRootProps()}>
+                <form action="/upload" method="POST" encType="multipart/form-data" id='forma'>
+                  <input {...getInputProps()} />
                   <div className="space-y-1 text-center">
                     <div className="flex flex-col text-sm text-gray-600 w-full">
                       <label htmlFor="file-upload" className="cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
@@ -123,9 +115,6 @@ const Main = () => {
                 </motion.div>
               </AnimatePresence>
             </motion.div>
-            {/* {
-              isPDF && <PDFModal isOpen={true} onClose={() => setIsPDF(false)} />
-            } */}
           </div>
         </div>
       </section>
