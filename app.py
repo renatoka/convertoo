@@ -47,33 +47,28 @@ def index():
 def upload():
     file = request.files["file"]
     try:
-        if file.filename.endswith(".docx"):
-            random_string = "".join(secrets.choice(alphabet) for i in range(10))
+        random_string = "".join(secrets.choice(alphabet) for i in range(10))
+        file.save(f"./uploads/{secure_filename(file.filename)}")
 
-            file.save(f"./uploads/{secure_filename(file.filename)}")
+        convertapi.convert(
+            "pdf",
+            {
+                "File": f"./uploads/{secure_filename(file.filename)}",
+            },
+            from_format="docx",
+        ).save_files(f"./uploads/{random_string}.pdf")
 
-            convertapi.convert(
-                "pdf",
-                {
-                    "File": f"./uploads/{secure_filename(file.filename)}",
-                },
-                from_format="docx",
-            ).save_files(f"./uploads/{random_string}.pdf")
+        blob = bucket.blob(f"{random_string}/{random_string}.pdf")
 
-            blob = bucket.blob(f"{random_string}/{random_string}.pdf")
+        token = uuid4()
+        blob.metadata = {"firebaseStorageDownloadTokens": token}
 
-            token = uuid4()
-            blob.metadata = {"firebaseStorageDownloadTokens": token}
+        blob.upload_from_filename(f"./uploads/{random_string}.pdf")
+        blob.make_public()
 
-            blob.upload_from_filename(f"./uploads/{random_string}.pdf")
-            blob.make_public()
-
-            os.remove(f"./uploads/{secure_filename(file.filename)}")
-            os.remove(f"./uploads/{random_string}.pdf")
-
-            return redirect(blob.public_url)
-        else:
-            return Response("File type not supported", status=400)
+        os.remove(f"./uploads/{secure_filename(file.filename)}")
+        os.remove(f"./uploads/{random_string}.pdf")
+        return redirect(blob.public_url)
 
     except RequestEntityTooLarge as e:
         return "File too large. Max file size is 10MB"
