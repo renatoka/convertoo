@@ -34,16 +34,11 @@ cred = credentials.Certificate("secret.json")
 firebase_admin.initialize_app(cred, {"storageBucket": os.getenv("STORAGE_BUCKET")})
 bucket = storage.bucket(os.getenv("STORAGE_BUCKET"))
 
-
-@app.route('/')
-@cross_origin()
+@app.route("/")
 def index():
-    ''' User will call with with thier id to store the symbol as registered'''
     return render_template("index.html")
 
-
 @app.route("/upload", methods=["POST"])
-@cross_origin()
 def upload():
     file = request.files["file"]
     try:
@@ -59,7 +54,6 @@ def upload():
         ).save_files(f"./uploads/{random_string}.pdf")
 
         blob = bucket.blob(f"{random_string}/{random_string}.pdf")
-
         token = uuid4()
         blob.metadata = {"firebaseStorageDownloadTokens": token}
 

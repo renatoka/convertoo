@@ -1,58 +1,54 @@
-import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next"
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { UploadPopup } from "./chakra/UploadPopup";
+import React from "react";
+
+
+const allowedTypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+const errorAnimation = {
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.5
+    },
+    y: 100
+  },
+  enter: {
+    opacity: 1,
+    transition: {
+      duration: 0.5
+    },
+    y: 0
+  },
+  initial: {
+    opacity: 0,
+    y: 0
+  }
+}
+const formData = new FormData()
 
 const Main = () => {
 
   const { t } = useTranslation()
-  const [error, setError] = useState('')
+  const [error, setError] = useState('none')
 
-  const errorAnimation = {
-    exit: {
-      opacity: 0,
-      transition: {
-        duration: 0.5
-      },
-      y: 100
-    },
-    enter: {
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      },
-      y: 0
-    },
-    initial: {
-      opacity: 0,
-      y: 0
-    }
-  }
+  const uploadFile = (event) => {
+    const file = event.target.files[0]
+    formData.append("file", file)
 
-  const handlePostMethod = (event) => {
-    event.preventDefault()
-    const files = event.target.files
-    const formData = new FormData()
-    formData.append("file", files[0])
-
-    if (files[0].type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") { // .docx
-      if (files[0].size <= 10000000) { // 10MB
-        setError('success')
-        setInterval(() => {
-          document.getElementById('forma').submit();
-          setError('none')
-        }, 2000)
-      } else {
-        setError('size')
-        setTimeout(() => {
-          setError('none')
-        }, 3000)
-      }
-    } else {
-      setError('type')
+    if (allowedTypes.includes(file.type) && file.size <= 10000000) {
+      setError('success')
       setTimeout(() => {
         setError('none')
-      }, 3000)
+        document.getElementById('forma').submit()
+      }, 2000)
+    } else {
+      if (file.size > 10000000) {
+        setError('size')
+      } else if (!allowedTypes.includes(file.type)) {
+        setError('type')
+      }
     }
   }
 
@@ -88,7 +84,7 @@ const Main = () => {
             </div>
             <div className="flex justify-center" data-aos="zoom-y-out" data-aos-delay="450">
               <div className="flex flex-col justify-center w-full">
-                <form className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-t-md" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={handlePostMethod}>
+                <form className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-t-md" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={uploadFile}>
                   <div className="space-y-1 text-center">
                     <div className="flex flex-col text-sm text-gray-600 w-full">
                       <label htmlFor="file-upload" className="cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">

@@ -1,6 +1,6 @@
 {
   "name": "convertoo",
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "http://localhost:5000",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -13,7 +13,7 @@
     "@chakra-ui/react": "^2.4.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "axios": "^1.2.0",
+    "axios": "^1.2.1",
     "framer-motion": "^6.5.1",
     "i18next": "^22.0.6",
     "react": "^18.2.0",
