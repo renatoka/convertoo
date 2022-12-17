@@ -1,23 +1,21 @@
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next"
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UploadPopup } from "./chakra/UploadPopup";
-import React from "react";
-
 
 const allowedTypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']
 const errorAnimation = {
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.5
+      duration: 1
     },
-    y: 100
+    y: 1000
   },
   enter: {
     opacity: 1,
     transition: {
-      duration: 0.5
+      duration: 1
     },
     y: 0
   },
@@ -26,7 +24,6 @@ const errorAnimation = {
     y: 0
   }
 }
-const formData = new FormData()
 
 const Main = () => {
 
@@ -35,6 +32,7 @@ const Main = () => {
 
   const uploadFile = (event) => {
     const file = event.target.files[0]
+    const formData = new FormData()
     formData.append("file", file)
 
     if (allowedTypes.includes(file.type) && file.size <= 10000000) {
@@ -46,8 +44,14 @@ const Main = () => {
     } else {
       if (file.size > 10000000) {
         setError('size')
+        setTimeout(() => {
+          setError('none')
+        }, 2000)
       } else if (!allowedTypes.includes(file.type)) {
         setError('type')
+        setTimeout(() => {
+          setError('none')
+        }, 2000)
       }
     }
   }
@@ -87,7 +91,7 @@ const Main = () => {
                 <form className="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-t-md" action="/upload" method="POST" encType="multipart/form-data" id='forma' onChange={uploadFile}>
                   <div className="space-y-1 text-center">
                     <div className="flex flex-col text-sm text-gray-600 w-full">
-                      <label htmlFor="file-upload" className="cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                      <label htmlFor="file-upload" className="cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500">
                         <span>{t('upload')}</span>
                         <input id="file-upload" name="file" type="file" className="sr-only" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf" />
                       </label>
